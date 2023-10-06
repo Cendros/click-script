@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "quick-script.helloWorld",
-        "title": "Hello World"
+        "command": "quick-script.listScripts",
+        "title": "List scripts"
       }
     ]
   },

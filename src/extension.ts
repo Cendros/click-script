@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import * as fs from 'fs';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -13,10 +14,25 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('quick-script.helloWorld', () => {
+	let disposable = vscode.commands.registerCommand('quick-script.listScripts', async () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from quick-script!');
+		
+		if (!vscode.workspace.workspaceFolders) {
+			vscode.window.showErrorMessage('Unable to locate files.');
+			return;
+		}
+		const f = vscode.workspace.workspaceFolders[0].uri.fsPath;
+
+		let file;
+		try {
+        file = fs.readFileSync(`${f}/package.json`, { encoding: 'utf8' });
+		} catch (err) {
+			vscode.window.showErrorMessage('Unable to package.json.');
+			return;
+		}
+		
+		const {scripts} = JSON.parse(file.toString());
 	});
 
 	context.subscriptions.push(disposable);
