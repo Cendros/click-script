@@ -1,6 +1,6 @@
 {
-  "name": "quick-script",
-  "displayName": "quick-script",
+  "name": "click-script",
+  "displayName": "click-script",
   "description": "Easily launch your scripts in one click!",
   "version": "0.0.1",
   "engines": {
@@ -14,7 +14,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "quick-script.listScripts",
+        "command": "click-script.listScripts",
         "title": "List scripts"
       }
     ]
