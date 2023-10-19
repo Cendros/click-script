@@ -29,39 +29,30 @@ export function activate(context: ExtensionContext) {
 
   context.subscriptions.push(disposable);
 
-  // create a new tree view and display a button which show hello world
-  const treeView = vscode.window.createTreeView("click-script-btns", {
+	const scripts = getScripts();
+    if (!scripts)
+      return window.showErrorMessage(
+        "You don't have any scripts in your package.json file."
+      );
+
+  const treeView = window.createTreeView("click-script-btns", {
     treeDataProvider: {
       getChildren: () => {
-        return [
-          {
-            label: "Hello World",
-            command: {
-              command: "click-script.helloWorld",
-              title: "Hello World",
-            },
-          },
-          {
-            label: "Hello World 2",
-            command: {
-              command: "click-script.helloWorld2",
-              title: "Hello World 2",
-            },
-          },
-          {
-            label: "Hello World 3",
-            command: {
-              command: "click-script.helloWorld3",
-              title: "Hello World 3",
-            },
-          },
-        ];
+        return Object.entries(scripts.scripts).map(([label, command]) => ({
+            label: label,
+          })
+        )
       },
       getTreeItem: (items) => {
         return items;
       },
     },
   });
+
+  treeView.onDidChangeSelection((item) => {
+    executeScript(item.selection[0].label, scripts.scripts[item.selection[0].label])
+  })
+  
   context.subscriptions.push(treeView);
 }
 
