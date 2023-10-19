@@ -3,8 +3,8 @@ import * as fs from 'fs';
 
 export const getScripts = () => {
     if (!vscode.workspace.workspaceFolders) {
-			vscode.window.showErrorMessage('Unable to locate files.');
-			return;
+        vscode.window.showErrorMessage('Unable to locate files.');
+        return;
     }
     const f = vscode.workspace.workspaceFolders[0].uri.fsPath;
 
@@ -15,8 +15,8 @@ export const getScripts = () => {
         vscode.window.showErrorMessage('Unable to find package.json.');
         return;
     }
-    const {scripts} = JSON.parse(file.toString());
-    
+    const { scripts } = JSON.parse(file.toString());
+
     return { scripts: scripts };
 }
 
