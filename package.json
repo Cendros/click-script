@@ -12,6 +12,23 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "click-script",
+          "title": "ClickScript",
+          "icon": "resources/star.svg"
+        }
+      ]
+    },
+    "views": {
+      "click-script": [
+        {
+          "id": "quick-script-btns",
+          "name": "Quick Script Buttons"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "click-script.listScripts",
