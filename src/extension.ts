@@ -1,4 +1,4 @@
-import { window, commands, ExtensionContext, EventEmitter, Event } from "vscode";
+import { window, commands, ExtensionContext, EventEmitter, Event, ThemeIcon } from "vscode";
 import { executeScript, getScripts } from "./utils";
 import { Script } from "./types/script";
 
@@ -7,11 +7,11 @@ export function activate(context: ExtensionContext) {
     "click-script.executeScript",
     async () => {
       const scripts = getScripts();
-      if (!scripts)
+      if (!scripts) {
         return window.showErrorMessage(
           "You don't have any scripts in your package.json file."
         );
-
+      }
       const quickPick = window.createQuickPick();
       quickPick.items = Object.entries(scripts.scripts).map(
         ([label, command]) => ({ label: label, description: String(command) })
@@ -68,4 +68,4 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(treeView);
 }
 
-export function deactivate() {}
+export function deactivate() { }
