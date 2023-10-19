@@ -1,45 +1,34 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from "vscode";
-import * as fs from "fs";
+import { window, commands, ExtensionContext } from "vscode";
+import { executeScript, getScripts } from "./utils";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  console.log('Congratulations, your extension "click-script" is now active!');
-
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand(
-    "click-script.listScripts",
+export function activate(context: ExtensionContext) {
+  let disposable = commands.registerCommand(
+    "click-script.executeScript",
     async () => {
-      // The code you place here will be executed every time your command is executed
-      // Display a message box to the user
+      const scripts = getScripts();
+      if (!scripts)
+        return window.showErrorMessage(
+          "You don't have any scripts in your package.json file."
+        );
 
-      if (!vscode.workspace.workspaceFolders) {
-        vscode.window.showErrorMessage("Unable to locate files.");
-        return;
-      }
-      const f = vscode.workspace.workspaceFolders[0].uri.fsPath;
+      const quickPick = window.createQuickPick();
+      quickPick.items = Object.entries(scripts.scripts).map(
+        ([label, command]) => ({ label: label, description: String(command) })
+      );
+      quickPick.title = "Choose a script to execute";
 
-      let file;
-      try {
-        file = fs.readFileSync(`${f}/package.json`, { encoding: "utf8" });
-      } catch (err) {
-        vscode.window.showErrorMessage("Unable to find package.json.");
-        return;
-      }
+      quickPick.onDidAccept(() => {
+        const { label } = quickPick.activeItems[0];
+        executeScript(label, scripts.scripts[label]);
+        quickPick.hide();
+      });
 
-      const { scripts } = JSON.parse(file.toString());
-
-      console.log(scripts);
+      quickPick.show();
     }
   );
+
   context.subscriptions.push(disposable);
-  
+
   // create a new tree view and display a button which show hello world
   const treeView = vscode.window.createTreeView("click-script-btns", {
     treeDataProvider: {
@@ -76,5 +65,4 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(treeView);
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}
