@@ -1,5 +1,6 @@
-import { window, commands, ExtensionContext } from "vscode";
+import { window, commands, ExtensionContext, EventEmitter, Event } from "vscode";
 import { executeScript, getScripts } from "./utils";
+import { Script } from "./types/script";
 
 export function activate(context: ExtensionContext) {
   let disposable = commands.registerCommand(
@@ -29,30 +30,41 @@ export function activate(context: ExtensionContext) {
 
   context.subscriptions.push(disposable);
 
-	const scripts = getScripts();
-    if (!scripts)
-      return window.showErrorMessage(
-        "You don't have any scripts in your package.json file."
-      );
+  let scripts: Script | undefined;
+
+  const _onDidChangeTreeData: EventEmitter<undefined> = new EventEmitter<undefined>();
+  const onDidChangeTreeData: Event<undefined> = _onDidChangeTreeData.event;
 
   const treeView = window.createTreeView("click-script-btns", {
     treeDataProvider: {
       getChildren: () => {
-        return Object.entries(scripts.scripts).map(([label, command]) => ({
+        const scripts = getScripts();
+        if (!scripts)
+          window.showErrorMessage(
+            "You don't have any scripts in your package.json file."
+        );
+
+        return scripts ? Object.keys(scripts.scripts).map(label => ({
             label: label,
           })
-        )
+        ) : []
       },
       getTreeItem: (items) => {
         return items;
       },
-    },
+      onDidChangeTreeData: onDidChangeTreeData
+    }
   });
 
   treeView.onDidChangeSelection((item) => {
-    executeScript(item.selection[0].label, scripts.scripts[item.selection[0].label])
+    executeScript(item.selection[0].label, scripts?.scripts[item.selection[0].label] || '')
   })
-  
+
+  treeView.onDidChangeVisibility(() => {
+    scripts = getScripts();
+    _onDidChangeTreeData.fire(undefined);
+  })
+
   context.subscriptions.push(treeView);
 }
 
