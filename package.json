@@ -24,8 +24,8 @@
     "views": {
       "click-script": [
         {
-          "id": "quick-script-btns",
-          "name": "Quick Script Buttons"
+          "id": "click-script-btns",
+          "name": "Click Script Buttons"
         }
       ]
     },
