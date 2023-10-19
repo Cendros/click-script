@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "echo hello",
-    "test2": "echo hello"
+    "test2": "echo hello",
+    "test3": "npm i"
   }   
 }

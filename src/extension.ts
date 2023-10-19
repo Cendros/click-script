@@ -1,4 +1,4 @@
-import { window, commands, ExtensionContext } from "vscode";
+import { window, commands, ExtensionContext, ThemeIcon } from "vscode";
 import { executeScript, getScripts } from "./utils";
 
 export function activate(context: ExtensionContext) {
