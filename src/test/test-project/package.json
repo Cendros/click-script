@@ -6,5 +6,5 @@
   "scripts": {
     "test": "echo hello",
     "test2": "echo hello"
-  }
+  }   
 }

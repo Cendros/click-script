@@ -31,8 +31,8 @@
     },
     "commands": [
       {
-        "command": "click-script.listScripts",
-        "title": "List scripts"
+        "command": "click-script.executeScript",
+        "title": "Execute script"
       }
     ]
   },
