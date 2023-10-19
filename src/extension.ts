@@ -1,4 +1,11 @@
-import { window, commands, ExtensionContext, EventEmitter, Event, ThemeIcon } from "vscode";
+import {
+  window,
+  commands,
+  ExtensionContext,
+  EventEmitter,
+  Event,
+  ThemeIcon,
+} from "vscode";
 import { executeScript, getScripts } from "./utils";
 import { Script } from "./types/script";
 
@@ -32,7 +39,8 @@ export function activate(context: ExtensionContext) {
 
   let scripts: Script | undefined;
 
-  const _onDidChangeTreeData: EventEmitter<undefined> = new EventEmitter<undefined>();
+  const _onDidChangeTreeData: EventEmitter<undefined> =
+    new EventEmitter<undefined>();
   const onDidChangeTreeData: Event<undefined> = _onDidChangeTreeData.event;
 
   const treeView = window.createTreeView("click-script-btns", {
@@ -42,30 +50,35 @@ export function activate(context: ExtensionContext) {
         if (!scripts)
           window.showErrorMessage(
             "You don't have any scripts in your package.json file."
-        );
+          );
 
-        return scripts ? Object.keys(scripts.scripts).map(label => ({
-            label: label,
-          })
-        ) : []
+        return scripts
+          ? Object.keys(scripts.scripts).map((label) => ({
+              label: label,
+              iconPath: new ThemeIcon("play"),
+            }))
+          : [];
       },
       getTreeItem: (items) => {
         return items;
       },
-      onDidChangeTreeData: onDidChangeTreeData
-    }
+      onDidChangeTreeData: onDidChangeTreeData,
+    },
   });
 
   treeView.onDidChangeSelection((item) => {
-    executeScript(item.selection[0].label, scripts?.scripts[item.selection[0].label] || '')
-  })
+    executeScript(
+      item.selection[0].label,
+      scripts?.scripts[item.selection[0].label] || ""
+    );
+  });
 
   treeView.onDidChangeVisibility(() => {
     scripts = getScripts();
     _onDidChangeTreeData.fire(undefined);
-  })
+  });
 
   context.subscriptions.push(treeView);
 }
 
-export function deactivate() { }
+export function deactivate() {}
