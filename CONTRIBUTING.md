@@ -1,13 +1,28 @@
 # Contributing to ClickScript
 
-:+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
+Welcome, and thank you for your interest in contributing to ClickScript extension for VS Code!. There are several of ways you can contribute to this extension.
 
-The following is a set of guidelines for contributing to Atom and its packages, which are hosted in the [Atom Organization](https://github.com/atom) on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
+## Ideas, feature requests, and bugs
 
-#### Table Of Contents
+We are open to all ideas and we want to get rid of bugs! Use the Issues section to either report a new issue, provide your ideas or contribute to existing threads.
 
-[Code of Conduct](#code-of-conduct)
+## Documentation
 
-## Code of Conduct
+The primary documentation for the extension is available at the [documentation ClickScript](README.md). If something is unclear or does not ring true, tell us using "unhelpful documentation" link that you can find at the bottom of every page.
 
-This project and everyone participating in it is governed by the [ClickScript Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [cendros.mc@gmail.com](mailto:cendros.mc@gmail.com).
+If something seems wrong with [the README file](README.md), please open an issue, or submit a PR with correction!
+
+## Code
+
+To contribute bug fixes, features, or design changes:
+
+- Clone the repository locally and open in VS Code.
+- Install [ESLint for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
+- Open the terminal (<kbd>CTRL</kbd>+ <kbd>\`</kbd> by default) and run `npm install`. // TODO
+- To build, open the Command Palette (<kbd>F1</kbd> by default) and type in `Tasks: Run Build Task`. // TODO
+
+## Legal
+
+This project is submited at the [licence MIT](LICENCE.md).
+
+<!-- Before we can accept your pull request you will need to sign a **Contribution License Agreement**. All you need to do is to submit a pull request, then the PR will get appropriately labelled (e.g. `cla-required`, `cla-norequired`, `cla-signed`, `cla-already-signed`). If you already signed the agreement we will continue with reviewing the PR, otherwise system will tell you how you can sign the CLA. Once you sign the CLA all future PR's will be labeled as `cla-signed`. // TODO -->
