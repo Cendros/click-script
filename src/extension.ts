@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as cp from 'child_process';
+import { displayButtons } from './display';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
