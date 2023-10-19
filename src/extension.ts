@@ -1,4 +1,4 @@
-import { window, commands, ExtensionContext } from "vscode";
+import { window, commands, ExtensionContext, ThemeIcon } from "vscode";
 import { executeScript, getScripts } from "./utils";
 
 export function activate(context: ExtensionContext) {
@@ -40,6 +40,7 @@ export function activate(context: ExtensionContext) {
       getChildren: () => {
         return Object.entries(scripts.scripts).map(([label, command]) => ({
             label: label,
+            iconPath: new ThemeIcon("play"),
           })
         )
       },
