@@ -20,8 +20,8 @@ export const getScripts = () => {
     return { scripts: scripts };
 };
 
-export const executeScript = (name: string, command: string) => {
+export const executeScript = (name: string) => {
     const terminal = vscode.window.createTerminal(name);
     terminal.show();
-    terminal.sendText(`${command}`);
+    terminal.sendText(`npm run ${name}`);
 };

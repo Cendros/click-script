@@ -27,7 +27,7 @@ export function activate(context: ExtensionContext) {
 
       quickPick.onDidAccept(() => {
         const { label } = quickPick.activeItems[0];
-        executeScript(label, scripts.scripts[label]);
+        executeScript(label);
         quickPick.hide();
       });
 
@@ -69,7 +69,6 @@ export function activate(context: ExtensionContext) {
   treeView.onDidChangeSelection((item) => {
     executeScript(
       item.selection[0].label,
-      scripts?.scripts[item.selection[0].label] || ""
     );
   });
 
