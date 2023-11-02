@@ -3,6 +3,7 @@
   "displayName": "click-script",
   "publisher": "Cendros",
   "description": "Easily launch your scripts in one click!",
+  "icon": "resources/terminal-icon.png",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.83.0"
