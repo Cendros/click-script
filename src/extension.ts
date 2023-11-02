@@ -1,16 +1,24 @@
-import { window, commands, ExtensionContext } from "vscode";
+import {
+  window,
+  commands,
+  ExtensionContext,
+  EventEmitter,
+  Event,
+  ThemeIcon,
+} from "vscode";
 import { executeScript, getScripts } from "./utils";
+import { Script } from "./types/script";
 
 export function activate(context: ExtensionContext) {
   let disposable = commands.registerCommand(
     "click-script.executeScript",
     async () => {
       const scripts = getScripts();
-      if (!scripts)
+      if (!scripts) {
         return window.showErrorMessage(
           "You don't have any scripts in your package.json file."
         );
-
+      }
       const quickPick = window.createQuickPick();
       quickPick.items = Object.entries(scripts.scripts).map(
         ([label, command]) => ({ label: label, description: String(command) })
@@ -19,7 +27,7 @@ export function activate(context: ExtensionContext) {
 
       quickPick.onDidAccept(() => {
         const { label } = quickPick.activeItems[0];
-        executeScript(label, scripts.scripts[label]);
+        executeScript(label);
         quickPick.hide();
       });
 
@@ -29,39 +37,46 @@ export function activate(context: ExtensionContext) {
 
   context.subscriptions.push(disposable);
 
-  // create a new tree view and display a button which show hello world
-  const treeView = vscode.window.createTreeView("click-script-btns", {
+  let scripts: Script | undefined;
+
+  const _onDidChangeTreeData: EventEmitter<undefined> =
+    new EventEmitter<undefined>();
+  const onDidChangeTreeData: Event<undefined> = _onDidChangeTreeData.event;
+
+  const treeView = window.createTreeView("click-script-btns", {
     treeDataProvider: {
       getChildren: () => {
-        return [
-          {
-            label: "Hello World",
-            command: {
-              command: "click-script.helloWorld",
-              title: "Hello World",
-            },
-          },
-          {
-            label: "Hello World 2",
-            command: {
-              command: "click-script.helloWorld2",
-              title: "Hello World 2",
-            },
-          },
-          {
-            label: "Hello World 3",
-            command: {
-              command: "click-script.helloWorld3",
-              title: "Hello World 3",
-            },
-          },
-        ];
+        const scripts = getScripts();
+        if (!scripts)
+          window.showErrorMessage(
+            "You don't have any scripts in your package.json file."
+          );
+
+        return scripts
+          ? Object.keys(scripts.scripts).map((label) => ({
+              label: label,
+              iconPath: new ThemeIcon("play"),
+            }))
+          : [];
       },
       getTreeItem: (items) => {
         return items;
       },
+      onDidChangeTreeData: onDidChangeTreeData,
     },
   });
+
+  treeView.onDidChangeSelection((item) => {
+    executeScript(
+      item.selection[0].label,
+    );
+  });
+
+  treeView.onDidChangeVisibility(() => {
+    scripts = getScripts();
+    _onDidChangeTreeData.fire(undefined);
+  });
+
   context.subscriptions.push(treeView);
 }
 

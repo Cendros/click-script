@@ -18,10 +18,10 @@ export const getScripts = () => {
     const { scripts } = JSON.parse(file.toString());
 
     return { scripts: scripts };
-}
+};
 
-export const executeScript = (name: string, command: string) => {
+export const executeScript = (name: string) => {
     const terminal = vscode.window.createTerminal(name);
     terminal.show();
-    terminal.sendText(`${command}`);
-}
+    terminal.sendText(`npm run ${name}`);
+};
