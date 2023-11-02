@@ -18,8 +18,8 @@ To contribute bug fixes, features, or design changes:
 
 - Clone the repository locally and open in VS Code.
 - Install [ESLint for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
-- Open the terminal (<kbd>CTRL</kbd>+ <kbd>\`</kbd> by default) and run `npm install`. // TODO
-- To build, open the Command Palette (<kbd>F1</kbd> by default) and type in `Tasks: Run Build Task`. // TODO
+- Open the terminal (<kbd>CTRL</kbd>+ <kbd>\`</kbd> by default) and run `npm install` or `yarn install`
+- Press `F5` and click to "Run and Debug" or "Run" (menu) and "Start Debugging".
 
 ## Legal
 
