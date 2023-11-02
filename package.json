@@ -4,7 +4,7 @@
   "publisher": "Cendros",
   "description": "Easily launch your scripts in one click!",
   "icon": "resources/terminal-icon.png",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.83.0"
   },
@@ -50,7 +50,8 @@
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
-    "test-compile": "tsc -p ./"
+    "test-compile": "tsc -p ./",
+    "deploy": "vsce publish --yarn"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.2",
@@ -59,6 +60,7 @@
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
     "@vscode/test-electron": "^2.3.4",
+    "@vscode/vsce": "^2.22.0",
     "esbuild": "^0.19.5",
     "eslint": "^8.50.0",
     "glob": "^10.3.3",
