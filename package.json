@@ -30,8 +30,12 @@
     "views": {
       "click-script": [
         {
-          "id": "click-script-btns",
-          "name": "Click Script Buttons"
+          "id": "click-script-package",
+          "name": "package.json"
+        },
+        {
+          "id": "click-script-make",
+          "name": "Makefile"
         }
       ]
     },
