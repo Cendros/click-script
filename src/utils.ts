@@ -17,11 +17,32 @@ export const getScripts = () => {
     }
     const { scripts } = JSON.parse(file.toString());
 
-    return { scripts: scripts };
+    return { scripts };
 };
 
-export const executeScript = (name: string) => {
+export const getMakeScritps = () => {
+    if (!vscode.workspace.workspaceFolders) {
+        vscode.window.showErrorMessage('Unable to locate files.');
+        return;
+    }
+
+    const f = vscode.workspace.workspaceFolders[0].uri.fsPath;
+
+    let file;
+    try {
+        file = fs.readFileSync(`${f}/Makefile`, { encoding: 'utf8' });
+    } catch (err) {
+        vscode.window.showErrorMessage('Unable to find Makefile.');
+        return;
+    }
+    const content = file.toString();
+    const scripts = content.match(/^.*:$/gm)?.map(res => res.slice(0, -1)) ?? [];
+
+    return scripts;
+}
+
+export const executeScript = (executer: string, name: string) => {
     const terminal = vscode.window.createTerminal(name);
     terminal.show();
-    terminal.sendText(`npm run ${name}`);
+    terminal.sendText(`${executer} ${name}`);
 };

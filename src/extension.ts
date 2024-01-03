@@ -6,11 +6,10 @@ import {
   Event,
   ThemeIcon,
 } from "vscode";
-import { executeScript, getScripts } from "./utils";
-import { Script } from "./types/script";
+import { executeScript, getMakeScritps, getScripts } from "./utils";
 
 export function activate(context: ExtensionContext) {
-  let disposable = commands.registerCommand(
+  const disposable = commands.registerCommand(
     "click-script.executeScript",
     async () => {
       const scripts = getScripts();
@@ -27,7 +26,7 @@ export function activate(context: ExtensionContext) {
 
       quickPick.onDidAccept(() => {
         const { label } = quickPick.activeItems[0];
-        executeScript(label);
+        executeScript('npm run', label);
         quickPick.hide();
       });
 
@@ -35,7 +34,30 @@ export function activate(context: ExtensionContext) {
     }
   );
 
-  context.subscriptions.push(disposable);
+  const disposableMake = commands.registerCommand(
+    "click-script.executeMake",
+    async () => {
+      const scripts = getMakeScritps();
+      if (!scripts) {
+        return window.showErrorMessage(
+          "You don't have any scripts in your Makefile file."
+        );
+      }
+      const quickPick = window.createQuickPick();
+      quickPick.items = scripts.map(
+        (label: string) => ({ label: label })
+      );
+      quickPick.title = "Choose a script to execute";
+
+      quickPick.onDidAccept(() => {
+        const { label } = quickPick.activeItems[0];
+        executeScript('make', label);
+        quickPick.hide();
+      });
+
+      quickPick.show();
+    }
+  );
 
   const _onDidChangeTreeData: EventEmitter<undefined> =
     new EventEmitter<undefined>();
@@ -65,16 +87,14 @@ export function activate(context: ExtensionContext) {
   });
 
   treeView.onDidChangeSelection((item) => {
-    executeScript(
-      item.selection[0].label,
-    );
+    executeScript('npm run', item.selection[0].label);
   });
 
   treeView.onDidChangeVisibility(() => {
     _onDidChangeTreeData.fire(undefined);
   });
 
-  context.subscriptions.push(treeView);
+  context.subscriptions.push(disposable, disposableMake, treeView);
 }
 
 export function deactivate() {}
