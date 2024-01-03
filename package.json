@@ -4,7 +4,7 @@
   "publisher": "Cendros",
   "description": "Easily launch your scripts in one click!",
   "icon": "resources/terminal-icon.png",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "engines": {
     "vscode": "^1.83.0"
   },
@@ -30,8 +30,12 @@
     "views": {
       "click-script": [
         {
-          "id": "click-script-btns",
-          "name": "Click Script Buttons"
+          "id": "click-script-package",
+          "name": "package.json"
+        },
+        {
+          "id": "click-script-make",
+          "name": "Makefile"
         }
       ]
     },
@@ -39,6 +43,10 @@
       {
         "command": "click-script.executeScript",
         "title": "Execute script"
+      },
+      {
+        "command": "click-script.executeMake",
+        "title": "Execute make"
       }
     ]
   },

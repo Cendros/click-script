@@ -6,11 +6,10 @@ import {
   Event,
   ThemeIcon,
 } from "vscode";
-import { executeScript, getScripts } from "./utils";
-import { Script } from "./types/script";
+import { executeScript, getMakeScripts, getScripts } from "./utils";
 
 export function activate(context: ExtensionContext) {
-  let disposable = commands.registerCommand(
+  const disposable = commands.registerCommand(
     "click-script.executeScript",
     async () => {
       const scripts = getScripts();
@@ -27,7 +26,7 @@ export function activate(context: ExtensionContext) {
 
       quickPick.onDidAccept(() => {
         const { label } = quickPick.activeItems[0];
-        executeScript(label);
+        executeScript("npm run", label);
         quickPick.hide();
       });
 
@@ -35,15 +34,34 @@ export function activate(context: ExtensionContext) {
     }
   );
 
-  context.subscriptions.push(disposable);
+  const disposableMake = commands.registerCommand(
+    "click-script.executeMake",
+    async () => {
+      const scripts = getMakeScripts();
+      if (!scripts) {
+        return window.showErrorMessage(
+          "You don't have any scripts in your Makefile file."
+        );
+      }
+      const quickPick = window.createQuickPick();
+      quickPick.items = scripts.scripts.map((label: string) => ({ label: label }));
+      quickPick.title = "Choose a script to execute";
 
-  let scripts: Script | undefined;
+      quickPick.onDidAccept(() => {
+        const { label } = quickPick.activeItems[0];
+        executeScript("make", label);
+        quickPick.hide();
+      });
+
+      quickPick.show();
+    }
+  );
 
   const _onDidChangeTreeData: EventEmitter<undefined> =
     new EventEmitter<undefined>();
   const onDidChangeTreeData: Event<undefined> = _onDidChangeTreeData.event;
 
-  const treeView = window.createTreeView("click-script-btns", {
+  const packageTreeView = window.createTreeView("click-script-package", {
     treeDataProvider: {
       getChildren: () => {
         const scripts = getScripts();
@@ -66,18 +84,46 @@ export function activate(context: ExtensionContext) {
     },
   });
 
-  treeView.onDidChangeSelection((item) => {
-    executeScript(
-      item.selection[0].label,
-    );
+  packageTreeView.onDidChangeSelection((item) => {
+    executeScript("npm run", item.selection[0].label);
   });
 
-  treeView.onDidChangeVisibility(() => {
-    scripts = getScripts();
+  packageTreeView.onDidChangeVisibility(() => {
     _onDidChangeTreeData.fire(undefined);
   });
 
-  context.subscriptions.push(treeView);
+  const makeTreeView = window.createTreeView("click-script-make", {
+    treeDataProvider: {
+      getChildren: () => {
+        const scripts = getMakeScripts();
+        if (!scripts)
+          window.showErrorMessage(
+            "You don't have any scripts in your Makefile."
+          );
+
+        return scripts
+          ? Object.keys(scripts.scripts).map((label) => ({
+              label: label,
+              iconPath: new ThemeIcon("play"),
+            }))
+          : [];
+      },
+      getTreeItem: (items) => {
+        return items;
+      },
+      onDidChangeTreeData: onDidChangeTreeData,
+    },
+  });
+
+  makeTreeView.onDidChangeSelection((item) => {
+    executeScript("make", item.selection[0].label);
+  });
+
+  makeTreeView.onDidChangeVisibility(() => {
+    _onDidChangeTreeData.fire(undefined);
+  });
+
+  context.subscriptions.push(disposable, disposableMake, packageTreeView, makeTreeView);
 }
 
 export function deactivate() {}
