@@ -1,6 +1,6 @@
 # Contributing to ClickScript
 
-Welcome, and thank you for your interest in contributing to ClickScript extension for VS Code!. There are several of ways you can contribute to this extension.
+Welcome and thank you for your interest in contributing to ClickScript extension for VS Code! There are several of ways you can contribute to this extension.
 
 ## Ideas, feature requests, and bugs
 
