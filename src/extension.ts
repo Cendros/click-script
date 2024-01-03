@@ -37,8 +37,6 @@ export function activate(context: ExtensionContext) {
 
   context.subscriptions.push(disposable);
 
-  let scripts: Script | undefined;
-
   const _onDidChangeTreeData: EventEmitter<undefined> =
     new EventEmitter<undefined>();
   const onDidChangeTreeData: Event<undefined> = _onDidChangeTreeData.event;
@@ -73,7 +71,6 @@ export function activate(context: ExtensionContext) {
   });
 
   treeView.onDidChangeVisibility(() => {
-    scripts = getScripts();
     _onDidChangeTreeData.fire(undefined);
   });
 
