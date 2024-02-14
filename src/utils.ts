@@ -17,13 +17,10 @@ export const getScripts = () => {
   }
   const { scripts } = JSON.parse(file.toString());
 
-  console.log("scripts package", scripts);
-
   return { scripts };
 };
 
 export const getMakeScripts = () => {
-    console.log("getMakeScripts");
   if (!vscode.workspace.workspaceFolders) {
     vscode.window.showErrorMessage("Unable to locate files.");
     return;

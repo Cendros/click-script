@@ -1,0 +1,11 @@
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "hello": "echo hello",
+    "run": "echo run",
+    "build": "echo build"
+  }   
+}

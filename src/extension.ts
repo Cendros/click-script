@@ -38,13 +38,15 @@ export function activate(context: ExtensionContext) {
     "click-script.executeMake",
     async () => {
       const scripts = getMakeScripts();
+      console.log(scripts);
+      
       if (!scripts) {
         return window.showErrorMessage(
           "You don't have any scripts in your Makefile file."
         );
       }
       const quickPick = window.createQuickPick();
-      quickPick.items = scripts.scripts.map((label: string) => ({ label: label }));
+      quickPick.items = Object.keys(scripts.scripts).map((label: string) => ({ label: label }));
       quickPick.title = "Choose a script to execute";
 
       quickPick.onDidAccept(() => {
@@ -65,10 +67,11 @@ export function activate(context: ExtensionContext) {
     treeDataProvider: {
       getChildren: () => {
         const scripts = getScripts();
-        if (!scripts)
+        if (!scripts) {
           window.showErrorMessage(
             "You don't have any scripts in your package.json file."
           );
+        }
 
         return scripts
           ? Object.keys(scripts.scripts).map((label) => ({
@@ -96,10 +99,11 @@ export function activate(context: ExtensionContext) {
     treeDataProvider: {
       getChildren: () => {
         const scripts = getMakeScripts();
-        if (!scripts)
+        if (!scripts) {
           window.showErrorMessage(
             "You don't have any scripts in your Makefile."
           );
+        }
 
         return scripts
           ? Object.keys(scripts.scripts).map((label) => ({

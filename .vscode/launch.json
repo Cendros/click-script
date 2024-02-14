@@ -10,7 +10,7 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"args": [
-				"${workspaceFolder}/src/test/test-project/",
+				"${workspaceFolder}/src/test/my-project/",
 				"--extensionDevelopmentPath=${workspaceFolder}"
 			],
 			"outFiles": [
