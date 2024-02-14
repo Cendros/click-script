@@ -7,7 +7,7 @@ This extension is a tool that provides you a list of scripts from your project's
 
 ### Sidebar
 
-Once you have installed ClickScript and opened a project, you will see a new icon in the activity bar. clicking on this icon will display a new sidebar with the list of scripts that come from your package.json and Makefile. You can click on one of them to execute the script of your choice.
+Once you have installed ClickScript and opened a project, you will see a new icon in the activity bar. Clicking on this icon will display a new sidebar with the list of scripts that come from your package.json and Makefile. You can click on one of them to execute the script of your choice.
 
 ![](./resources/Readme_preview.gif)
 
