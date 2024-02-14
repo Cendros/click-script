@@ -38,7 +38,6 @@ export function activate(context: ExtensionContext) {
     "click-script.executeMake",
     async () => {
       const scripts = getMakeScripts();
-      console.log(scripts);
       
       if (!scripts) {
         return window.showErrorMessage(

@@ -59,7 +59,7 @@
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
     "test-compile": "tsc -p ./",
-    "deploy": "vsce publish --yarn"
+    "deploy": "vsce publish --no-yarn"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.2",
