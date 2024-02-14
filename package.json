@@ -4,7 +4,7 @@
   "publisher": "Cendros",
   "description": "Easily launch your scripts in one click!",
   "icon": "resources/terminal-icon.png",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "engines": {
     "vscode": "^1.83.0"
   },
